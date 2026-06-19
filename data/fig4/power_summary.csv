@@ -1,0 +1,3 @@
+system,N_e_star,p_resist_low_arm,p_resist_high_arm,replicates_per_arm,power_low_vs_high_arm
+EGFR_PC9,6636.0,0.003,0.989,8,0.976
+BRAF_A375,9261.6,0.003,0.989,8,0.976

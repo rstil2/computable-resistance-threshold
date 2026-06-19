@@ -1,0 +1,52 @@
+# Fig 4 — barcoded evolution experiment (locked design)
+# Resistance probability vs manipulated effective population size N_e
+
+experiment_id: fig4_bottleneck_2026
+osf: https://osf.io/kp5jf
+
+# Arms: bottleneck N_e as fraction of predicted N_e* for each line
+arm_fractions: [0.05, 0.2, 0.5, 1.0, 2.0, 10.0]
+
+replicates_per_arm: 8          # power target ≥0.85 (see scripts/05_fig4_power.py)
+selection_generations: 14        # ~21 days at 36h/passage
+sampling_interval_days: 3
+
+drug_dose: IC80                  # fixed across all arms (selection coefficient s constant)
+passage_bottleneck: true         # enforce N_e at each passage
+
+# Primary readout
+resistance_criteria:
+  molecular: "Gatekeeper amplicon (EGFR T790M or BRAF V600E secondary / MAP2K1 K57T etc.)"
+  functional: "IC50 shift ≥ 3× vs parental on same drug"
+  rule: "Resistance called if molecular OR functional positive by day 21"
+
+# Systems (minimum for generality)
+systems:
+  - id: EGFR_PC9
+    cell_line: PC9
+    drug: osimertinib
+    cancer_type: NSCLC_EGFR
+    L: 12
+    V_A: 0.09                    # baseline WES / MATH proxy for parental
+    notes: "EGFR ex19del; T790M is primary resistance allele"
+
+  - id: BRAF_A375
+    cell_line: A375
+    drug: vemurafenib
+    cancer_type: SKCM_BRAF
+    L: 10
+    V_A: 0.14
+    notes: "BRAF V600E; NRAS/MEK1 gatekeepers"
+
+# Barcoding
+barcode:
+  library_diversity: 1000000
+  vector: "LentiBar-BC (custom or CellTag/CellTracker equivalent)"
+  seq_depth: 50000               # reads per timepoint per culture
+
+# Analysis (pre-specified)
+analysis:
+  primary_model: "logistic resistance ~ log10(N_e/N_e_star)"
+  changepoint: "N_e/N_e_star = 1"
+  changepoint_test: "segmented logistic (pybreak or manual AIC compare)"
+  alpha: 0.05

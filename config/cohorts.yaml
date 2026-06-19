@@ -1,0 +1,90 @@
+# cBioPortal cohort inventory — primary public data, TRACERx bonus.
+# Tier 1 = primary Fig 2 discovery; Tier 2 = independent replication; Tier 3 = bonus.
+
+primary:
+  - study_id: skcm_broad_brafresist_2012
+    name: "BRAF inhibitor resistance (Broad 2014)"
+    n_patients: 46
+    cancer_type: SKCM_BRAF
+    therapy_class: targeted_BRAF
+    endpoint_field: DURATION_OF_THERAPY_WEEKS
+    endpoint_event: "EARLY_RESISTANCE == Yes OR TREATMENT_BEST_RESPONSE == PD"
+    sequencing_timing: pre_treatment_or_on_progression
+    role: primary_mechanistic
+    notes: >
+      Cleanest resistance phenotype in public data. Small n — use for effect-size
+      confirmation and Fig 2 inset; combine with TCGA for power.
+
+  - study_id: luad_tcga_pan_can_atlas_2018
+    name: "TCGA LUAD Pan-Cancer Atlas"
+    n_patients: 566
+    cancer_type: LUAD_TCGA
+    therapy_class: mixed_first_line
+    endpoint_field: PFS_MONTHS
+    endpoint_status: PFS_STATUS
+    sequencing_timing: pre_treatment
+    role: primary_discovery
+    notes: >
+      Harmonized mutation VAFs for N_e, V_A, h2. Restrict to patients with
+      PFS and documented systemic therapy where available.
+
+  - study_id: skcm_tcga_pan_can_atlas_2018
+    name: "TCGA SKCM Pan-Cancer Atlas"
+    n_patients: 448
+    cancer_type: SKCM_TCGA
+    therapy_class: mixed
+    endpoint_field: PFS_MONTHS
+    endpoint_status: PFS_STATUS
+    sequencing_timing: pre_treatment
+    role: primary_discovery
+
+  - study_id: coadread_tcga_pan_can_atlas_2018
+    name: "TCGA COADREAD Pan-Cancer Atlas"
+    n_patients: 594
+    cancer_type: COADREAD_TCGA
+    therapy_class: mixed
+    endpoint_field: PFS_MONTHS
+    endpoint_status: PFS_STATUS
+    sequencing_timing: pre_treatment
+    role: primary_discovery
+
+replication:
+  - study_id: prostate_msk_2024
+    name: "Metastatic prostate (MSK 2024)"
+    n_patients: 2260
+    cancer_type: PRAD_ARSI
+    therapy_class: ARSI
+    endpoint_field: PFS_MONTHS
+    endpoint_status: PFS_STATUS
+    sequencing_timing: pre_treatment
+    role: independent_replication
+    notes: Large MSK cohort; distinct disease from TCGA primary.
+
+  - study_id: nsclc_ctdx_msk_2022
+    name: "Metastatic NSCLC ctDNA (MSK Nat Med 2022)"
+    n_patients: 2621
+    cancer_type: NSCLC_general
+    therapy_class: mixed_metastatic
+    endpoint_field: OS_MONTHS
+    endpoint_status: OS_STATUS
+    sequencing_timing: ctDNA_draw
+    role: replication_ctdna
+    notes: >
+      OS as pre-specified sensitivity endpoint only. Serial ctDNA enables
+      post-hoc resistance dating in follow-up work.
+
+excluded_from_primary:
+  - study_id: nsclc_pd1_msk_2018
+    reason: "Immune-as-learner thesis — Extended Data only (r≈0.15 too weak for main text)"
+  - study_id: tmb_mskcc_2018
+    reason: "ICB-only; no targeted resistance endpoint"
+
+bonus:
+  - study_id: EGAS00001006867
+    name: "TRACERx 421 per-patient"
+    access: EGA_dac
+    role: bonus_validation
+    endpoint: time_to_molecular_relapse_ctDNA
+    notes: >
+      Per-patient ITH + ctDNA trajectories. Apply after cBioPortal primary
+      analysis complete. Does not gate main claims.

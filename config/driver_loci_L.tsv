@@ -1,0 +1,27 @@
+# Independent L estimator: resistance-relevant driver loci count by cancer type.
+# Source: OncoKB / CIViC actionable panels (2024-06 snapshot). Fixed before analysis.
+# Used in N_e* and epsilon* — NOT derived from N_e.
+cancer_type	L_loci	L_source_notes
+NSCLC_EGFR	12	EGFR TKI resistance panel (EGFR, MET, ERBB2, BRAF, PIK3CA, KRAS, TP53, RB1, MYC, CDKN2A, STK11, KEAP1)
+NSCLC_general	18	Broad NSCLC targeted resistance (above + ALK, ROS1, RET, NTRK1-3, NRAS, MAP2K1, NF1)
+SKCM_BRAF	10	BRAF/MEK resistance (BRAF, NRAS, MAP2K1, MAP2K2, KIT, CDKN2A, PTEN, PIK3CA, TP53, RAC1)
+CRC_antiEGFR	14	Anti-EGFR resistance (KRAS, NRAS, BRAF, EGFR, PIK3CA, PTEN, MET, ERBB2, MAP2K1, APC, TP53, SMAD4, FBXW7, NRAS)
+PRAD_ARSI	11	AR pathway / ARSI (AR, AR-V7 proxy loci AR, TP53, RB1, PTEN, PIK3CA, BRCA2, ATM, CDK12, SPOP, FOXA1)
+BRCA_HER2	9	HER2-targeted (ERBB2, PIK3CA, PTEN, TP53, ESR1, GATA3, MAP3K1, CDH1, NF1)
+GBM	8	Temozolomide / targeted (MGMT epigenetic excluded; IDH1, TP53, EGFR, PTEN, CDKN2A, NF1, PIK3CA, PDGFRA)
+AML	15	FLT3, NPM1, DNMT3A, IDH1, IDH2, TP53, RUNX1, NRAS, KRAS, KIT, WT1, TET2, ASXL1, SF3B1, U2AF1
+THCA	4	BRAF/RET targeted thyroid (BRAF, RET, RAS, TP53)
+LUAD_TCGA	18	Map to NSCLC_general
+SKCM_TCGA	10	Map to SKCM_BRAF
+COADREAD_TCGA	14	Map to CRC_antiEGFR
+PRAD_TCGA	11	Map to PRAD_ARSI
+GBM_TCGA	8	Map to GBM
+HNSC	12	Map to DEFAULT head/neck panel
+BLCA	12	Bladder targeted panel
+STAD	12	Gastric
+LIHC	11	HCC
+KIRC	10	RCC
+LUSC	18	Map to NSCLC_general
+ESCA	12	Esophageal
+UCEC	11	Endometrial
+DEFAULT	12	Conservative mid-range when cancer type unmapped

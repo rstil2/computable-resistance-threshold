@@ -1,0 +1,8 @@
+.venv/
+.mpl/
+__pycache__/
+*.pyc
+.DS_Store
+manuscript/_figure_cache/
+data/cache/
+*.docx~

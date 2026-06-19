@@ -1,0 +1,6 @@
+logrank_p,n_above,n_below,n_total,study_id
+,43,2,45,skcm_broad_brafresist_2012
+0.33435336743982846,461,36,497,luad_tcga_pan_can_atlas_2018
+0.08003348168170359,412,7,419,skcm_tcga_pan_can_atlas_2018
+0.1999314484682257,481,43,524,coadread_tcga_pan_can_atlas_2018
+0.2183988676929357,1354,86,1440,tcga_pooled

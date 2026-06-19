@@ -1,0 +1,103 @@
+# Fixed analysis parameters — LOCKED 2026-06-19 (OSF registration timestamped).
+# Do not change ε, δ, L table, cohort list, endpoints, or estimators after this date.
+
+title: "A computable threshold below which tumours cannot evolve drug resistance"
+
+osf:
+  project_url: "https://osf.io/kp5jf"
+  registration_date: "2026-06-19"
+  registration_status: locked
+  registration_commit: null  # no git repo; project files frozen at OSF lock date
+
+hypothesis:
+  one_line: >
+    Resistance evolution requires effective population size N_e at or above a
+    patient-specific threshold N_e*(V_A, L). Below N_e*, time-to-resistance
+    is significantly longer (resistance not reliably learnable).
+
+# PAC / sample-complexity constants (Theorem 5, supplementary Note 3)
+pac_constants:
+  epsilon: 0.05          # fitness-accuracy tolerance (resistance suboptimality)
+  delta: 0.05            # failure probability bound
+  # L is NOT log2(N_e) — see driver_loci_L.tsv (independent estimator)
+
+# Primary stratification rule (Fig 2)
+primary_endpoint:
+  name: time_to_resistance
+  unit: months
+  event_definition: >
+    First documented resistance to first-line systemic therapy: molecular
+    resistance mutation emergence, RECIST progression on targeted agent, or
+    physician-documented switch to second-line therapy for progression.
+  censoring: death without resistance, loss to follow-up, end of study
+
+  # Fallback hierarchy when resistance date unavailable (pre-specified)
+  fallback_endpoints:
+    - field: PFS_MONTHS
+      event_status: "PFS_STATUS == '1:Progressed'"
+      studies: [nsclc_pd1_msk_2018, luad_tcga_pan_can_atlas_2018, skcm_tcga_pan_can_atlas_2018]
+    - field: DURATION_OF_THERAPY_WEEKS
+      convert_to_months: 0.230769  # weeks * 12/52
+      event_definition: progression or early_resistance == Yes
+      studies: [skcm_broad_brafresist_2012]
+    - field: OS_MONTHS
+      role: sensitivity_only
+      note: "Metastatic ctDNA cohorts without PFS — not primary"
+
+  primary_comparison:
+    test: logrank
+    groups:
+      above: "N_e >= N_e_star"
+      below: "N_e < N_e_star"
+    alpha: 0.05
+    sided: two
+
+  secondary_models:
+    - cox_continuous: "log(N_e / N_e_star) as covariate"
+    - landmark_3mo: "Recompute N_e* at 3 months post-initiation (ctDNA cohorts)"
+
+# Estimators — must be independent of outcome and of each other
+estimators:
+  V_A:
+    primary: ccf_variance
+    description: Variance of cancer cell fraction across subclonal clusters
+    proxy_when_no_ccf: math_score
+    math_formula: "100 * MAD(VAF) / median(VAF)"
+    source: "Mroz & Rocco 2013; per-sample from mutation VAFs"
+
+  h2:
+    primary: subclonal_mutation_fraction
+    definition: "Fraction of somatic SNVs with VAF below clonal threshold"
+    clonal_vaf_threshold: 0.20
+    proxy: math_score_normalized
+
+  N_e:
+    primary: vaf_spectrum_ne
+    method: "Williams et al. 2016 neutral SFS scaling"
+    secondary: cellularity_burden
+    secondary_formula: "tumor_purity * estimated_cell_count_at_sequencing"
+    rule: "Report both; primary KM uses vaf_spectrum_ne"
+
+  L:
+    primary: driver_locus_count
+    source: config/driver_loci_L.tsv
+    rule: >
+      Count of curated actionable / resistance-relevant loci with documented
+      mutation in patient OR cancer-type median from OncoKB tier-1/2 panel.
+      NEVER set L = floor(log2(N_e)).
+
+  N_e_star:
+    formula: >
+      Minimum N_e satisfying PAC bound (Corollary 6):
+      P(W_T < W* - epsilon) <= delta.
+      Implemented as numerical inversion in src/threshold.py.
+    inputs: [V_A, L, epsilon, delta]
+    patient_rule: "Compute at pre-treatment / baseline sequencing timepoint only"
+
+# Fig 3 cross-cancer (independent of patient-level tuning)
+fig3:
+  L_source: driver_loci_L.tsv
+  leave_one_out: true
+  bootstrap_n: 10000
+  L_sensitivity: [0.5, 1.0, 2.0]  # multipliers on cancer-type L
+  exclude_cancer_types: [PAAD]       # stromal confound (pre-specified in theory paper)

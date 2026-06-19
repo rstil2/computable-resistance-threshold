@@ -1,0 +1,4 @@
+system_id,cell_line,drug,arm_fraction,replicate,N_e,N_e_star,resistance,notes
+EGFR_PC9,PC9,osimertinib,0.05,1,,,0,fill N_e after bottleneck; 1=resistant
+EGFR_PC9,PC9,osimertinib,0.05,2,,,0,
+EGFR_PC9,PC9,osimertinib,10.0,1,,,1,
