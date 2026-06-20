@@ -20,6 +20,8 @@ CORRESPONDING = (
 
 GITHUB_REPO = "https://github.com/rstil2/computable-resistance-threshold"
 
+THEORY_PREPRINT_DOI = "https://doi.org/10.21203/rs.3.rs-9848110/v1"
+
 KEYWORDS = (
     "Drug resistance; tumour evolution; effective population size; "
     "intratumour heterogeneity; precision oncology; biomarker"
@@ -33,7 +35,8 @@ ABSTRACT = [
     "sequencing: subclonal diversity (V_A), effective population size (N_e), and an independently "
     "specified count of resistance-relevant driver loci (L). Under a fixed evolutionary tolerance "
     "(ε = 0.05) and failure probability (δ = 0.05), N_e* is the minimum population size at which "
-    "resistance evolution is reliably learnable in the PAC sense (Supplementary Note 1)."
+    "resistance evolution is reliably learnable in the PAC sense (Stillwell, 2026 preprint; "
+    "Supplementary Note 1)."
 ),
 (
     "Across seventeen cancer types, the bound ε*(N_e, V_A, L) correlates with published "
@@ -55,7 +58,8 @@ ABSTRACT = [
 
 KEY_POINTS = [
     "N_e* quantifies resistance learnability from V_A, N_e, and L already present on most sequencing reports.",
-    "ε* tracks resistance durability across 17 cancer types (r = 0.88), with no patient-level tuning.",
+    "ε* tracks resistance durability across 17 cancer types (r = 0.88); head-to-head benchmarks "
+    "against V_A and N_e alone are reported transparently (Extended Data Table 5).",
     "Public targeted-therapy cohorts yield a pre-specified null patient test; resistance-dated endpoints are scarce.",
     "Binary above/below calls are indication-specific and often rare; continuous log(N_e/N_e*) is preferred.",
 ]
@@ -81,12 +85,16 @@ INTRODUCTION = [
 ),
 (
     "We cast this logic as an evolutionary probably approximately correct (PAC) bound "
-    "(Supplementary Note 1). For fixed ε and δ there exists a minimum N_e*(V_A, L) below which "
-    "resistance evolution is sample-starved. The bound yields ε*(N_e, V_A, L), which should "
-    "covary with resistance emergence when its inputs are measured independently of clinical "
-    "outcome. Importantly, L is fixed from curated OncoKB/CIViC resistance panels and is not "
-    "derived from log₂(N_e), avoiding circular coupling between the threshold and the population "
-    "size estimate."
+    "(Stillwell, 2026 preprint; Supplementary Note 1). The hypothesis class comprises resistance "
+    "by selection on N_e cells with dispersion V_A across L resistance loci; failure is missing "
+    "an ε-optimal resistant state with probability exceeding δ. N_e acts as effective sample "
+    "size in a large-deviation bound—not as labeled-example count in Valiant’s binary PAC "
+    "setting. For fixed ε and δ there exists a minimum N_e*(V_A, L) below which resistance "
+    "evolution is sample-starved. The bound yields ε*(N_e, V_A, L), which should covary with "
+    "resistance emergence when its inputs are measured independently of clinical outcome. "
+    "Importantly, L is fixed from curated OncoKB/CIViC resistance panels and is not derived "
+    "from log₂(N_e), avoiding circular coupling between the threshold and the population size "
+    "estimate."
 ),
 (
     "We test three pre-registered predictions. First, ε* should track published resistance "
@@ -109,7 +117,7 @@ RESULTS = [
         "para",
         "N_e* is the smallest effective population size for which the PAC failure probability "
         "does not exceed δ = 0.05 at accuracy ε = 0.05, given patient V_A and cancer-type L "
-        "(Methods; Supplementary Note 1). V_A is estimated from VAF dispersion (MATH-score "
+        "(Stillwell, 2026 preprint; Methods; Supplementary Note 1). V_A is estimated from VAF dispersion (MATH-score "
         "calibration), N_e from the subclonal VAF site-frequency spectrum (Williams et al. "
         "scaling), and L from a fixed resistance-locus panel per indication (Extended Data "
         "Table 1). Each quantity is inferable from a single pre-treatment sample when tumour "
@@ -153,6 +161,19 @@ RESULTS = [
         "replicates) gave a 95% confidence interval for r of 0.51–0.96, reflecting uncertainty "
         "from the modest number of types rather than fragility of the estimate. Halving or "
         "doubling L changed r by at most 0.002 (Extended Data Table 3)."
+    ),
+    (
+        "para",
+        "Head-to-head comparison against simpler heterogeneity metrics did not show ε* to be the "
+        "strongest univariate correlate on n = 17 types (Extended Data Table 5). Resistance "
+        "instability correlated with V_A alone (r = 0.87), log₁₀(N_e) alone (r = −0.89), and "
+        "1/N_e alone (r = 0.91), reflecting a shared pan-cancer gradient in both genomic inputs "
+        "and resistance kinetics. A bivariate model of V_A and log₁₀(N_e) explained 81% of "
+        "variance (R² = 0.81); adding ε* did not improve fit (ΔR² ≈ 0; nested F-test P = 0.96). "
+        "The increment of the PAC framework is therefore not superior type-level correlation, but "
+        "three joint properties: L is assigned independently of N_e and V_A; inputs collapse to a "
+        "single patient-level ratio N_e/N_e* on every report; and ε and δ tie the bound to an "
+        "explicit learnability criterion rather than an ad hoc composite of MATH-like scores."
     ),
     (
         "para",
@@ -264,11 +285,15 @@ RESULTS = [
 DISCUSSION = [
 (
     "We translate an evolutionary sample-complexity bound into N_e*, a threshold readable on "
-    "standard sequencing reports, and test it at three scales. The principal finding is ecological: "
-    "ε*(N_e, V_A, L), computed without reference to patient outcomes, tracks how quickly "
+    "standard sequencing reports, and test it at three scales. The principal ecological finding "
+    "is that ε*(N_e, V_A, L), computed without reference to patient outcomes, tracks how quickly "
     "resistance emerges across seventeen cancer types (r = 0.88). That result survives "
-    "leave-one-out deletion and wide perturbation of L, and does not reduce to repackaging "
-    "existing heterogeneity indices because L is fixed independently of N_e."
+    "leave-one-out deletion and wide perturbation of L. Benchmarking against V_A (≈MATH-calibrated) "
+    "and N_e alone shows comparable univariate correlations (Extended Data Table 5); ε* does not "
+    "outperform a V_A + log₁₀(N_e) composite at the type level. Its value lies in combining "
+    "independently specified L with N_e and V_A into a deployable patient ratio N_e/N_e*, under "
+    "an explicit learnability criterion— not in winning a seventeen-point correlation contest "
+    "against established heterogeneity indices."
 ),
 (
     "N_e* marks the PAC boundary of reliable resistance learnability under bounded error, not "
@@ -294,11 +319,17 @@ DISCUSSION = [
     "against exploratory survival mining without resistance-specific labels."
 ),
 (
-    "Limitations include retrospective design, error in VAF-based N_e estimation, post hoc "
-    "calibration of N_e to Williams medians (documented on OSF), and literature-derived TTR₂ "
-    "for cross-cancer comparisons. The PAC landscape is simplified; full derivations appear in "
-    "Supplementary Note 1. Definitive causal proof requires experimental control of effective "
-    "population size—outside the scope of this observational study."
+    "Limitations include retrospective design, error in VAF-based N_e estimation, and "
+    "literature-derived TTR₂ for cross-cancer comparisons. Patient-level N_e calibration to "
+    "Williams/Dentro medians (OSF deviation note) applies only to cBioPortal cohorts (Figs 3–4, "
+    "Extended Data Fig. 1), not to the cross-cancer ecology analysis, which uses published "
+    "type-level medians and therapy-outcome TTR₂ sources that do not overlap the calibration "
+    "literature (Extended Data Table 2). Because calibration is a monotonic within-cohort scale "
+    "map and Fig. 2 outcomes were never used to set anchors, the ecological correlation cannot "
+    "be inflated by reusing the same dataset for input and validation. Formal definitions are "
+    "summarized in Supplementary Note 1; full theorem statements and proofs are in Stillwell "
+    "(2026 preprint) and are not reproduced here. Definitive causal proof requires experimental control of effective population "
+    "size—outside the scope of this observational study."
 ),
 (
     "N_e* names a computable resistance-learnability limit at diagnosis. Cross-cancer ecology "
@@ -318,12 +349,38 @@ METHODS = [
         "this reframed analysis. A documented deviation added cohort-wise calibration of patient "
         "N_e to Williams/Dentro median anchors; ε, δ, L, and cohort lists were unchanged."
     ),
-    ("heading2", "PAC bound and N_e*"),
+    ("heading2", "PAC bound, hypothesis class, and N_e*"),
     (
         "para",
-        "The bound ε*(N_e, V_A, L) = √(2 V_A [L ln(e N_e/L) + ln(4/δ)] / N_e). N_e* solves "
-        "P(failure) ≤ δ at tolerance ε by bisection on the monotone PAC tail. Classification "
-        "uses baseline sequencing before systemic therapy. Regression models employ log₁₀(N_e/N_e*)."
+        "Supplementary Note 1 summarizes the learning objects for reviewers; full proofs appear "
+        f"in Stillwell (2026 preprint, {THEORY_PREPRINT_DOI}) and are not duplicated in this "
+        "paper. Instance space: baseline bulk-sequencing summaries of resistance-relevant allele "
+        "frequencies at L loci together "
+        "with subclonal dispersion V_A. Hypothesis class: resistance phenotypes reachable by "
+        "selection on an effective population of N_e cells. Loss: shortfall in resistance fitness "
+        "relative to an ε-optimal resistant phenotype. Failure: loss exceeding ε with probability "
+        "greater than δ over evolutionary trajectories. This is a continuous Fisher-information "
+        "search problem; VC dimension of binary classifiers is not the operative capacity measure."
+    ),
+    (
+        "para",
+        "The bound ε*(N_e, V_A, L) = √(2 V_A [L ln(e N_e/L) + ln(4/δ)] / N_e) follows from a "
+        "large-deviation tail on resistance-allele occupancy (Chernoff–Hoeffding type), with N_e "
+        "as effective sample size—analogous to sample complexity m in PAC bounds but not identical "
+        "to labeled-example count in Valiant’s discrete framework (Stillwell, 2026 preprint). "
+        "N_e* solves P(failure) ≤ δ at tolerance ε by bisection on the monotone PAC tail. Classification uses baseline "
+        "sequencing before systemic therapy. Regression models employ log₁₀(N_e/N_e*)."
+    ),
+    ("heading2", "Calibration and circularity controls"),
+    (
+        "para",
+        "Cross-cancer validation (Fig. 2) uses published median N_e and V_A per type and "
+        "literature TTR₂ from therapy-outcome papers (Extended Data Table 2)—no patient-level "
+        "calibration is applied. Patient-level N_e from cBioPortal VAF spectra is cohort-calibrated "
+        "to Williams/Dentro median anchors (OSF deviation note): a monotonic scale map preserving "
+        "within-cohort rank order. Calibration affects Figs 3–4 and Extended Data Fig. 1 only. "
+        "TTR₂ outcomes were not used to set calibration anchors, so ecological correlation in "
+        "Fig. 2 cannot be laundered through the same literature used for validation."
     ),
     ("heading2", "Estimators"),
     (
@@ -342,7 +399,9 @@ METHODS = [
         "Seventeen cancer types with published median N_e, V_A, independently assigned L, and "
         "TTR₂ (sources in Supplementary Table 1 and repository file "
         "cross_cancer_table.csv). Outcome: 1/TTR₂. Statistics: Pearson r; leave-one-out r; "
-        "10,000 bootstrap replicates resampling types; L sensitivity at 0.5×, 1.0×, 2.0×."
+        "10,000 bootstrap replicates resampling types; L sensitivity at 0.5×, 1.0×, 2.0×. "
+        "Benchmark: univariate r and OLS R² for V_A, log₁₀(N_e), 1/N_e, and ε*; nested F-test "
+        "for ε* beyond V_A + log₁₀(N_e) (scripts/make_cross_cancer_benchmark.py)."
     ),
     ("heading2", "Patient cohorts and endpoints"),
     (
@@ -399,13 +458,24 @@ EXTENDED_DATA_TABLES = [
         "SKCM (n = 419): 28.6%; log-rank P = 0.52; HR = 0.89 (P = 0.40). "
         "Pooled (n = 1,440): 16.2%; log-rank P = 0.55; HR = 0.82 (P = 0.042).",
     ),
+    (
+        "Extended Data Table 5",
+        "Head-to-head benchmark against heterogeneity metrics (n = 17 types)",
+        "Outcome: 1/TTR₂. V_A (MATH-calibrated): r = 0.871, LOO min r = 0.815, OLS R² = 0.758. "
+        "log₁₀(N_e): r = −0.890, LOO min r = −0.911, R² = 0.792. 1/N_e: r = 0.906, LOO min r = "
+        "0.829, R² = 0.821. ε* (PAC bound): r = 0.881, LOO min r = 0.772, R² = 0.776. "
+        "V_A + log₁₀(N_e): R² = 0.807. V_A + log₁₀(N_e) + L: R² = 0.820. Adding ε* to "
+        "V_A + log₁₀(N_e): ΔR² ≈ 0, nested F-test P = 0.96.",
+    ),
 ]
 
 DATA_AVAILABILITY = (
     "Patient-level data are available through cBioPortal (https://www.cbioportal.org) under study "
     "accessions listed in the repository cohort manifest. Processed figure statistics and patient "
     f"summary tables accompany the code release at {GITHUB_REPO}. Pre-registration: "
-    "https://osf.io/kp5jf."
+    f"https://osf.io/kp5jf. Theory preprint (proofs and full PAC derivation): "
+    f"{THEORY_PREPRINT_DOI}. Supplementary Note 1 (definitions summary): "
+    "manuscript/SUPPLEMENTARY_NOTE_1_PAC.pdf."
 )
 
 ETHICS = (
@@ -427,6 +497,8 @@ AUTHOR_CONTRIBUTIONS = (
 COMPETING_INTERESTS = "The author declares no competing interests."
 
 REFERENCES = [
+    "Stillwell, R. C. Natural selection is empirical risk minimisation. Preprint at Research Square "
+    "https://doi.org/10.21203/rs.3.rs-9848110/v1 (2026).",
     "Williams, M. J. et al. Quantification of subclonal selection in cancer from bulk sequencing data. Nat. Genet. 48, 327–335 (2016).",
     "Dentro, S. C. et al. Characterizing genetic intra-tumor heterogeneity across 2,658 human cancer genomes. Cell 185, 2239–2254 (2022).",
     "Van Allen, E. M. et al. The genetic landscape of clinical resistance to RAF inhibition in metastatic melanoma. Cancer Discov. 4, 94–109 (2014).",

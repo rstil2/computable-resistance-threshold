@@ -26,7 +26,7 @@ Can resistance evolution be predicted at treatment initiation from quantities al
 
 ### 1.3 Theory framing (demoted)
 
-Evolutionary quantitative genetics and PAC learning share a formal structure (empirical risk minimization on a Fisher-information manifold). This motivates \(N_e^*\) but **is not required** to interpret the empirical results. Full proofs appear in a companion theory manuscript and Supplementary Note 1.
+Evolutionary quantitative genetics and PAC learning share a formal structure (empirical risk minimization on a Fisher-information manifold). This motivates \(N_e^*\) but **is not required** to interpret the empirical results. Full proofs appear in Stillwell (2026 preprint, https://doi.org/10.21203/rs.3.rs-9848110/v1). Supplementary Note 1 to the empirical paper summarizes definitions only.
 
 ---
 

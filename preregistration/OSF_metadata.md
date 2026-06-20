@@ -126,7 +126,7 @@ Optional after registration lock:
 |-----------|------------|
 | Funding | None / self-funded (unless you have a grant) |
 | DOI | Assign after upload (OSF will generate) |
-| Related projects | Link companion theory preprint when available |
+| Related projects | Theory preprint: https://doi.org/10.21203/rs.3.rs-9848110/v1 |
 | Data availability | “All primary data from cBioPortal public API; see cohorts.yaml” |
 | Ethics | Exempt — secondary analysis of de-identified public data (confirm with your IRB if needed) |
 

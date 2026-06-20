@@ -42,7 +42,7 @@ Internal checklist after elevated editorial pass. Numbers verified against `data
 
 - [ ] **Affiliation** in `manuscript/content.py` (`AFFILIATION`)
 - [ ] **Funding** in acknowledgements
-- [ ] **Supplementary Note 1** (theory) as separate PDF — referenced but not bundled in repo
+- [x] **Supplementary Note 1** — `manuscript/SUPPLEMENTARY_NOTE_1_PAC.pdf` (auto-built); proofs in theory preprint https://doi.org/10.21203/rs.3.rs-9848110/v1
 - [ ] **Supplementary Table 1** (full cross-cancer sources) — export from cross_cancer_table.csv to formatted table
 - [ ] Zenodo DOI at acceptance
 - [ ] OSF: link GitHub repo on project page

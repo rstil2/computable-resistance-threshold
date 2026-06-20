@@ -2,6 +2,7 @@
 
 **Author:** R. Craig Stillwell, Independent Scholar (craig.stillwell@gmail.com)  
 **Code:** https://github.com/rstil2/computable-resistance-threshold  
+**Theory preprint (proofs):** https://doi.org/10.21203/rs.3.rs-9848110/v1  
 **Pre-registration (locked):** https://osf.io/kp5jf (2026-06-19)  
 **Target venue:** Nature Cancer / Nature Communications (no wet-lab causal figure)
 
@@ -13,15 +14,17 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 export MPLCONFIGDIR="$(pwd)/.mpl"
-python scripts/run_nat_cancer_figures.py   # figures + rebuilds MANUSCRIPT_draft.docx
+python scripts/run_nat_cancer_figures.py   # figures + manuscript + supplementary note
 ```
 
-Or rebuild the Word file alone after figures exist:
+Or rebuild documents alone after figures exist:
 ```bash
 python scripts/build_manuscript_docx.py
+python scripts/build_supplementary_note_1.py
 ```
 
-**Manuscript (DOCX, figures embedded):** `manuscript/MANUSCRIPT_draft.docx`
+**Manuscript (DOCX, figures embedded):** `manuscript/MANUSCRIPT_draft.docx`  
+**Supplementary Note 1 (PDF):** `manuscript/SUPPLEMENTARY_NOTE_1_PAC.pdf`
 
 ## Main results (2026-06-19)
 

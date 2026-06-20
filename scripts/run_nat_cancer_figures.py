@@ -16,7 +16,7 @@ SCRIPTS = [
     "make_fig4_utility.py",
     "make_ed_tcga_null.py",
 ]
-POST_SCRIPTS = ["build_manuscript_docx.py"]
+POST_SCRIPTS = ["build_supplementary_note_1.py", "build_manuscript_docx.py"]
 
 
 def main() -> None:
