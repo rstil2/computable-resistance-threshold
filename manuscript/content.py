@@ -4,11 +4,14 @@ Numbers verified against data/ outputs (2026-06-19).
 Repository: https://github.com/rstil2/computable-resistance-threshold
 """
 
-TITLE = "A computable threshold below which tumours cannot evolve drug resistance"
+TITLE = (
+    "N_e*: a computable population-size threshold for resistance learnability "
+    "from standard tumour sequencing"
+)
 
 AUTHORS = "R. Craig Stillwell"
 
-AFFILIATION = "[Affiliation — add department, institution, and country before submission]"
+AFFILIATION = "Independent Scholar"
 
 CORRESPONDING = (
     "Correspondence and requests for materials should be addressed to R.C.S. "
@@ -268,10 +271,10 @@ DISCUSSION = [
     "existing heterogeneity indices because L is fixed independently of N_e."
 ),
 (
-    "The title’s claim—that resistance cannot evolve below N_e*—is intended in the PAC sense "
-    "of reliable learnability under bounded error, not as a guarantee that no resistant clone "
-    "will ever appear. Empirically, patient-level and PFS tests on public data neither confirm "
-    "nor refute that stronger reading; they were underpowered or used mismatched endpoints. The "
+    "N_e* marks the PAC boundary of reliable resistance learnability under bounded error, not "
+    "a guarantee that no resistant clone will ever appear. Patient-level and PFS tests on public "
+    "data neither confirm nor refute finer hazard discrimination; they were underpowered or used "
+    "mismatched endpoints. The "
     "Broad vemurafenib cohort (fourteen events; 98% below N_e* after calibration) cannot "
     "discriminate subtle hazard differences. Larger MSK BRAF series exist but lack resistance "
     "dates in open metadata—a systematic gap in genomic archives built for genotype–survival "
@@ -413,6 +416,8 @@ ETHICS = (
 ACKNOWLEDGEMENTS = (
     "The author thanks the cBioPortal and TCGA communities for open genomic and clinical data."
 )
+
+FUNDING = "The author received no specific funding for this work."
 
 AUTHOR_CONTRIBUTIONS = (
     "R.C.S. conceived the study, developed the theory, performed all analyses, generated figures, "

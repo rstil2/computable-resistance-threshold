@@ -18,6 +18,7 @@ from content import (  # noqa: E402
     ABSTRACT,
     ACKNOWLEDGEMENTS,
     AFFILIATION,
+    FUNDING,
     AUTHOR_CONTRIBUTIONS,
     AUTHORS,
     COMPETING_INTERESTS,
@@ -210,6 +211,9 @@ def build() -> Path:
 
     add_heading(doc, "Acknowledgements", 1)
     add_para(doc, ACKNOWLEDGEMENTS)
+
+    add_heading(doc, "Funding", 1)
+    add_para(doc, FUNDING)
 
     add_heading(doc, "Author contributions", 1)
     add_para(doc, AUTHOR_CONTRIBUTIONS)

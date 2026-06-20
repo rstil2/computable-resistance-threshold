@@ -1,6 +1,6 @@
-# A computable threshold below which tumours cannot evolve drug resistance
+# N_e*: a computable population-size threshold for resistance learnability from standard tumour sequencing
 **R. Craig Stillwell**  
-*[Affiliation — add department, institution, and country before submission]*  
+*Independent Scholar*  
 Correspondence and requests for materials should be addressed to R.C.S. (craig.stillwell@gmail.com).
 ## Abstract
 Resistance to systemic therapy drives most cancer deaths, yet treatment decisions at diagnosis seldom include a quantitative estimate of evolutionary capacity to escape therapy. We define N_e*, a resistance-learnability threshold computable from standard tumour sequencing: subclonal diversity (V_A), effective population size (N_e), and an independently specified count of resistance-relevant driver loci (L). Under a fixed evolutionary tolerance (ε = 0.05) and failure probability (δ = 0.05), N_e* is the minimum population size at which resistance evolution is reliably learnable in the PAC sense (Supplementary Note 1).
@@ -52,7 +52,7 @@ Continuous Cox regression on log₁₀(N_e/N_e*) in the pooled sample reached P 
 *Extended Data Fig. 1. Pre-registered TCGA PFS by N_e* stratum (n = 1,440). Red, N_e ≥ N_e* (n = 233); blue, N_e < N_e* (n = 1,207). Log-rank P = 0.55.*
 ## Discussion
 We translate an evolutionary sample-complexity bound into N_e*, a threshold readable on standard sequencing reports, and test it at three scales. The principal finding is ecological: ε*(N_e, V_A, L), computed without reference to patient outcomes, tracks how quickly resistance emerges across seventeen cancer types (r = 0.88). That result survives leave-one-out deletion and wide perturbation of L, and does not reduce to repackaging existing heterogeneity indices because L is fixed independently of N_e.
-The title’s claim—that resistance cannot evolve below N_e*—is intended in the PAC sense of reliable learnability under bounded error, not as a guarantee that no resistant clone will ever appear. Empirically, patient-level and PFS tests on public data neither confirm nor refute that stronger reading; they were underpowered or used mismatched endpoints. The Broad vemurafenib cohort (fourteen events; 98% below N_e* after calibration) cannot discriminate subtle hazard differences. Larger MSK BRAF series exist but lack resistance dates in open metadata—a systematic gap in genomic archives built for genotype–survival association rather than time-to-resistance on targeted agents.
+N_e* marks the PAC boundary of reliable resistance learnability under bounded error, not a guarantee that no resistant clone will ever appear. Patient-level and PFS tests on public data neither confirm nor refute finer hazard discrimination; they were underpowered or used mismatched endpoints. The Broad vemurafenib cohort (fourteen events; 98% below N_e* after calibration) cannot discriminate subtle hazard differences. Larger MSK BRAF series exist but lack resistance dates in open metadata—a systematic gap in genomic archives built for genotype–survival association rather than time-to-resistance on targeted agents.
 Deployability is more immediate. All inputs for N_e* are already reported or derivable on most panels, and only 2–28% of patients exceeded the threshold in our distribution analysis, depending on indication. A continuous log(N_e/N_e*) line item—alongside TMB and driver calls—could frame evolutionary risk without implying that a binary cut should alter treatment until prospective outcome evidence exists.
 Pre-registered TCGA PFS analyses delimit what not to claim. Generic PFS is a poor proxy for resistance evolution; the null binary result (P = 0.55) is exactly what endpoint mismatch predicts. The significant inverted continuous Cox estimate (HR = 0.82, P = 0.042) warns against exploratory survival mining without resistance-specific labels.
 Limitations include retrospective design, error in VAF-based N_e estimation, post hoc calibration of N_e to Williams medians (documented on OSF), and literature-derived TTR₂ for cross-cancer comparisons. The PAC landscape is simplified; full derivations appear in Supplementary Note 1. Definitive causal proof requires experimental control of effective population size—outside the scope of this observational study.
@@ -106,6 +106,8 @@ Patient-level data are available through cBioPortal (https://www.cbioportal.org)
 De-identified retrospective public data only; no new human participants. Ethics approvals for original cohorts are described in their primary publications.
 ## Acknowledgements
 The author thanks the cBioPortal and TCGA communities for open genomic and clinical data.
+## Funding
+The author received no specific funding for this work.
 ## Author contributions
 R.C.S. conceived the study, developed the theory, performed all analyses, generated figures, and wrote the manuscript.
 ## Competing interests

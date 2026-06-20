@@ -1,6 +1,6 @@
-# A computable threshold below which tumours cannot evolve drug resistance
+# N_e*: a computable population-size threshold for resistance learnability from standard tumour sequencing
 
-**Author:** R. Craig Stillwell (craig.stillwell@gmail.com)  
+**Author:** R. Craig Stillwell, Independent Scholar (craig.stillwell@gmail.com)  
 **Code:** https://github.com/rstil2/computable-resistance-threshold  
 **Pre-registration (locked):** https://osf.io/kp5jf (2026-06-19)  
 **Target venue:** Nature Cancer / Nature Communications (no wet-lab causal figure)
